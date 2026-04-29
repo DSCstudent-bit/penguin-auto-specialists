@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Penguin Auto Specialists Service System</title>
+  <style>
+    :root {
+      --blue: #0f4c81;
+      --blue2: #1677bd;
+      --ice: #e8f4ff;
+      --dark: #152033;
+      --muted: #5e6c84;
+      --green: #168a4a;
+      --orange: #e68a00;
+      --red: #c2410c;
+      --border: #d8e2ee;
+      --card: #ffffff;
+      --bg: #f5f8fc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--dark);
+      background: var(--bg);
+    }
+    header {
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      color: white;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: 0 8px 24px rgba(16, 76, 129, 0.24);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 48px; height: 48px;
+      border-radius: 16px;
+      background: white;
+      color: var(--blue);
+      display: grid; place-items: center;
+      font-size: 28px;
+      box-shadow: inset 0 -6px 0 var(--ice);
+    }
+    h1 { font-size: 22px; margin: 0; }
+    header p { margin: 3px 0 0; opacity: .9; }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    button, .button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--blue);
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform .08s ease, box-shadow .08s ease;
+    }
+    button:hover, .button:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(21, 32, 51, .16); }
+    button.secondary { background: white; color: var(--blue); border: 1px solid rgba(255,255,255,.7); }
+    button.light { background: var(--ice); color: var(--blue); }
+    button.danger { background: var(--red); }
+    button.success { background: var(--green); }
+    main { max-width: 1180px; margin: 22px auto; padding: 0 16px 28px; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 8px 22px rgba(21, 32, 51, 0.06);
+    }
+    .hero { grid-column: span 7; min-height: 330px; }
+    .login-card { grid-column: span 5; }
+    .full { grid-column: 1 / -1; }
+    .half { grid-column: span 6; }
+    .third { grid-column: span 4; }
+    .two-third { grid-column: span 8; }
+    h2 { margin: 0 0 12px; font-size: 24px; }
+    h3 { margin: 0 0 10px; font-size: 18px; }
+    p { line-height: 1.45; color: var(--muted); }
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+    .stat { padding: 14px; border-radius: 14px; background: var(--ice); border: 1px solid var(--border); }
+    .stat strong { display: block; color: var(--blue); font-size: 26px; }
+    label { display: block; margin: 12px 0 6px; font-weight: 700; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 14px;
+      background: white;
+    }
+    textarea { min-height: 78px; resize: vertical; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--border); text-align: left; font-size: 14px; vertical-align: top; }
+    th { background: var(--ice); color: var(--blue); }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--ice);
+      color: var(--blue);
+    }
+    .badge.orange { background: #fff1db; color: var(--orange); }
+    .badge.green { background: #e5f8ed; color: var(--green); }
+    .badge.red { background: #fff0ea; color: var(--red); }
+    .notice { border-left: 5px solid var(--blue2); background: #f2f8ff; padding: 12px 14px; border-radius: 12px; color: var(--dark); }
+    .mobile-shell {
+      max-width: 370px;
+      margin: 0 auto;
+      border: 10px solid #1d2939;
+      border-radius: 34px;
+      overflow: hidden;
+      background: white;
+      min-height: 560px;
+      box-shadow: 0 16px 35px rgba(21,32,51,.24);
+    }
+    .mobile-top { background: var(--blue); color: white; padding: 14px; text-align: center; font-weight: 700; }
+    .mobile-content { padding: 14px; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .progress { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
+    .step { padding: 6px 9px; border-radius: 10px; background: var(--ice); color: var(--blue); font-weight: 700; font-size: 12px; }
+    .step.done { background: #e5f8ed; color: var(--green); }
+    .invoice { background: #fff; border: 1px dashed var(--border); padding: 14px; border-radius: 14px; }
+    footer { text-align: center; color: var(--muted); padding: 22px; font-size: 13px; }
+    @media (max-width: 800px) {
+      .hero, .login-card, .half, .third, .two-third { grid-column: 1 / -1; }
+      .stat-row { grid-template-columns: repeat(2, 1fr); }
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">🐧</div>
+      <div>
+        <h1>Penguin Auto Specialists Service System</h1>
+        <p>Repair scheduling, parts tracking, invoices, and secure customer service requests</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="secondary" onclick="showHome()">Home</button>
+      <button class="secondary" onclick="startLogin('customer')">Customer Login</button>
+      <button class="secondary" onclick="startLogin('owner')">Owner Login</button>
+      <button class="secondary" onclick="resetDemo()">Reset Demo</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="screen active">
+      <div class="grid">
+        <div class="card hero">
+          <h2>Auto repair workflow prototype</h2>
+          <p>This prototype demonstrates the final PA3 workflow for Penguin Auto Specialists. Customers can submit service requests, track repair status, and pay invoices. The owner dashboard can view requests, assign technicians, order parts, update status, and invoice the customer.</p>
+          <div class="progress">
+            <span class="step done">1. Customer Request</span>
+            <span class="step done">2. Owner Review</span>
+            <span class="step done">3. Technician Assigned</span>
+            <span class="step done">4. Parts Tracked</span>
+            <span class="step done">5. Invoice / Payment</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat"><strong>2FA</strong><span>Login protection</span></div>
+            <div class="stat"><strong>8</strong><span>Database tables</span></div>
+            <div class="stat"><strong>4</strong><span>Core services</span></div>
+            <div class="stat"><strong>Local</strong><span>Prototype storage</span></div>
+          </div>
+          <p class="notice"><b>Demo code:</b> Use customer or owner login, then enter 2FA code <b>123456</b>.</p>
+        </div>
+        <div class="card login-card">
+          <h2>Demo access</h2>
+          <p>Use these buttons to test the required user paths.</p>
+          <button style="width:100%; margin-bottom:10px;" onclick="startLogin('customer')">Login as Customer</button>
+          <button class="success" style="width:100%; margin-bottom:10px;" onclick="startLogin('owner')">Login as Owner</button>
+          <div class="invoice">
+            <h3>Demo accounts</h3>
+            <p><b>Customer:</b> customer@penguinauto.com</p>
+            <p><b>Owner:</b> owner@penguinauto.com</p>
+            <p><b>2FA:</b> 123456</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="login" class="screen">
+      <div class="grid">
+        <div class="card half">
+          <h2 id="loginTitle">Login</h2>
+          <label>Email</label>
+          <input id="loginEmail" type="email" />
+          <label>Password</label>
+          <input id="loginPassword" type="password" value="password" />
+          <button style="margin-top:14px;" onclick="showTwoFactor()">Continue</button>
+        </div>
+        <div class="card half">
+          <h2>Security check</h2>
+          <p>The system uses two-factor authentication to reduce the risk of unauthorized account access and scam attempts.</p>
+          <div id="twoFactorBox" style="display:none;">
+            <label>Enter 2FA Code</label>
+            <input id="twoFactorCode" placeholder="123456" />
+            <button class="success" style="margin-top:14px;" onclick="completeLogin()">Verify and Login</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="customer" class="screen">
+      <div class="grid">
+        <div class="card two-third">
+          <h2>Customer Service Request</h2>
+          <p>Submit a vehicle repair request and track repair status updates.</p>
+          <div class="row">
+            <div><label>First Name</label><input id="firstName" value="Demo" /></div>
+            <div><label>Last Name</label><input id="lastName" value="Customer" /></div>
+          </div>
+          <div class="row">
+            <div><label>Email</label><input id="email" value="customer@penguinauto.com" /></div>
+            <div><label>Phone</label><input id="phone" value="386-555-0100" /></div>
+          </div>
+          <div class="row">
+            <div><label>Vehicle Make</label><input id="make" value="Toyota" /></div>
+            <div><label>Vehicle Model</label><input id="model" value="Camry" /></div>
+          </div>
+          <div class="row">
+            <div><label>Year</label><input id="year" value="2018" /></div>
+            <div><label>VIN</label><input id="vin" value="1HGCM82633A004352" /></div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Requested Service</label>
+              <select id="service">
+                <option>Oil Change</option>
+                <option selected>Brake Repair</option>
+                <option>Diagnostic Inspection</option>
+                <option>Tire Replacement</option>
+              </select>
+            </div>
+            <div><label>Preferred Date</label><input id="date" type="date" value="2026-04-30" /></div>
+          </div>
+          <label>Special Instructions</label>
+          <textarea id="notes">Brake pedal feels soft and the vehicle makes a grinding sound when stopping.</textarea>
+          <button style="margin-top:14px;" onclick="submitRequest()">Submit Service Request</button>
+        </div>
+        <div class="card third">
+          <div class="mobile-shell">
+            <div class="mobile-top">Penguin Auto Mobile</div>
+            <div class="mobile-content">
+              <h3>Current Status</h3>
+              <p><b>Vehicle:</b> 2018 Toyota Camry</p>
+              <p><b>Service:</b> Brake Repair</p>
+              <p><span class="badge orange" id="mobileStatus">Requested</span></p>
+              <div class="progress">
+                <span class="step done">Requested</span>
+                <span class="step">Assigned</span>
+                <span class="step">In Progress</span>
+                <span class="step">Paid</span>
+              </div>
+              <p>Notifications will appear here as the shop updates the repair.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card full">
+          <h2>Customer Repair and Invoice View</h2>
+          <div id="customerList" class="table-wrap"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="owner" class="screen">
+      <div class="grid">
+        <div class="card full">
+          <h2>Owner / Worker Dashboard</h2>
+          <p>Review service requests, assign technicians, manage parts, update status, and create invoices.</p>
+          <div class="stat-row">
+            <div class="stat"><strong id="requestCount">0</strong><span>Service requests</span></div>
+            <div class="stat"><strong id="activeCount">0</strong><span>Active repairs</span></div>
+            <div class="stat"><strong id="invoiceCount">0</strong><span>Invoices created</span></div>
+            <div class="stat"><strong>$<span id="revenueCount">0</span></strong><span>Simulated revenue</span></div>
+          </div>
+        </div>
+        <div class="card two-third">
+          <h2>Repair Orders</h2>
+          <div id="ownerList" class="table-wrap"></div>
+        </div>
+        <div class="card third">
+          <h2>Parts Inventory</h2>
+          <table>
+            <thead><tr><th>Part</th><th>Vendor</th><th>Qty</th></tr></thead>
+            <tbody id="partsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Classroom prototype for CIS4510 IT Project Management. Payment and 2FA are simulated for demonstration only.</footer>
+
+  <script>
+    const demoParts = [
+      {name:'Oil Filter', vendor:'Daytona Parts Supply', qty:20, cost:12.99},
+      {name:'Brake Pads', vendor:'Coastal Auto Parts', qty:8, cost:48.50},
+      {name:'Air Filter', vendor:'Daytona Parts Supply', qty:15, cost:18.75},
+      {name:'Tire Set', vendor:'RoadWay Tire Vendor', qty:4, cost:320.00}
+    ];
+    const prices = {'Oil Change': 65, 'Brake Repair': 275, 'Diagnostic Inspection': 118.75, 'Tire Replacement': 500};
+    let pendingRole = 'customer';
+
+    function init() {
+      if (!localStorage.getItem('requests')) {
+        localStorage.setItem('requests', JSON.stringify([
+          {
+            id: 1001,
+            customer: 'Demo Customer',
+            email: 'customer@penguinauto.com',
+            phone: '386-555-0100',
+            vehicle: '2018 Toyota Camry',
+            vin: '1HGCM82633A004352',
+            service: 'Brake Repair',
+            date: '2026-04-30',
+            notes: 'Brake pedal feels soft and the vehicle makes a grinding sound when stopping.',
+            status: 'Requested',
+            technician: 'Unassigned',
+            parts: 'Brake Pads',
+            invoice: 0,
+            paid: false
+          }
+        ]));
+      }
+      if (!localStorage.getItem('parts')) localStorage.setItem('parts', JSON.stringify(demoParts));
+      const params = new URLSearchParams(location.search);
+      const view = params.get('view');
+      if (view === 'customer') showCustomer();
+      else if (view === 'owner') showOwner();
+      else if (view === 'invoice') { showCustomer(); invoiceFirst(); }
+      else showHome();
+    }
+
+    function data() { return JSON.parse(localStorage.getItem('requests') || '[]'); }
+    function saveData(d) { localStorage.setItem('requests', JSON.stringify(d)); }
+    function parts() { return JSON.parse(localStorage.getItem('parts') || '[]'); }
+    function saveParts(p) { localStorage.setItem('parts', JSON.stringify(p)); }
+    function activate(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+    function showHome() { activate('home'); }
+    function startLogin(role) {
+      pendingRole = role;
+      activate('login');
+      document.getElementById('twoFactorBox').style.display = 'none';
+      document.getElementById('twoFactorCode').value = '';
+      document.getElementById('loginTitle').textContent = role === 'owner' ? 'Owner Login' : 'Customer Login';
+      document.getElementById('loginEmail').value = role === 'owner' ? 'owner@penguinauto.com' : 'customer@penguinauto.com';
+    }
+    function showTwoFactor() { document.getElementById('twoFactorBox').style.display = 'block'; document.getElementById('twoFactorCode').focus(); }
+    function completeLogin() {
+      const code = document.getElementById('twoFactorCode').value.trim();
+      if (code !== '123456') { alert('Invalid demo 2FA code. Use 123456.'); return; }
+      if (pendingRole === 'owner') showOwner(); else showCustomer();
+    }
+    function submitRequest() {
+      const d = data();
+      const service = document.getElementById('service').value;
+      d.push({
+        id: Date.now(),
+        customer: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        vehicle: document.getElementById('year').value + ' ' + document.getElementById('make').value + ' ' + document.getElementById('model').value,
+        vin: document.getElementById('vin').value,
+        service: service,
+        date: document.getElementById('date').value,
+        notes: document.getElementById('notes').value,
+        status: 'Requested',
+        technician: 'Unassigned',
+        parts: service === 'Brake Repair' ? 'Brake Pads' : service === 'Oil Change' ? 'Oil Filter' : service === 'Tire Replacement' ? 'Tire Set' : 'Diagnostic Tools',
+        invoice: 0,
+        paid: false
+      });
+      saveData(d);
+      renderCustomer();
+      alert('Service request submitted. The owner dashboard can now assign the repair.');
+    }
+    function showCustomer() { activate('customer'); renderCustomer(); }
+    function showOwner() { activate('owner'); renderOwner(); }
+    function statusBadge(status) {
+      let c = status === 'Paid' || status === 'Completed' ? 'green' : status === 'Waiting on Parts' ? 'red' : 'orange';
+      return `<span class="badge ${c}">${status}</span>`;
+    }
+    function renderCustomer() {
+      const d = data();
+      if (d[0]) document.getElementById('mobileStatus').textContent = d[d.length-1].status;
+      let html = '<table><thead><tr><th>Repair #</th><th>Vehicle</th><th>Service</th><th>Status</th><th>Technician</th><th>Invoice</th><th>Action</th></tr></thead><tbody>';
+      d.forEach(r => {
+        html += `<tr><td>${r.id}</td><td>${r.vehicle}<br><small>VIN: ${r.vin}</small></td><td>${r.service}<br><small>${r.date}</small></td><td>${statusBadge(r.status)}</td><td>${r.technician}</td><td>${r.invoice ? '$' + r.invoice.toFixed(2) : 'Not created'}</td><td>${r.invoice && !r.paid ? `<button onclick="payInvoice(${r.id})">Pay Invoice</button>` : r.paid ? '<span class="badge green">Paid</span>' : 'Pending shop update'}</td></tr>`;
+      });
+      html += '</tbody></table>';
+      document.getElementById('customerList').innerHTML = html;
+    }
+    function renderOwner() {
+      const d = data();
+      document.getElementById('requestCount').textContent = d.length;
+      document.getElementById('activeCount').textContent = d.filter(r => !r.paid && r.status !== 'Completed').length;
+      document.getElementById('invoiceCount').textContent = d.filter(r => r.invoice > 0).length;
+      document.getElementById('revenueCount').textContent = d.filter(r => r.paid).reduce((a,b) => a + b.invoice, 0).toFixed(2);
+      let html = '<table><thead><tr><th>Repair #</th><th>Customer</th><th>Vehicle / Service</th><th>Status</th><th>Technician</th><th>Owner Actions</th></tr></thead><tbody>';
+      d.forEach(r => {
+        html += `<tr><td>${r.id}</td><td>${r.customer}<br><small>${r.email}</small></td><td>${r.vehicle}<br><b>${r.service}</b><br><small>${r.notes}</small></td><td>${statusBadge(r.status)}</td><td>${r.technician}</td><td>
+          <button class="light" onclick="assignTech(${r.id})">Assign Tech</button>
+          <button class="light" onclick="orderParts(${r.id})">Order/Use Parts</button>
+          <button class="light" onclick="advanceStatus(${r.id})">Update Status</button>
+          <button onclick="createInvoice(${r.id})">Create Invoice</button>
+        </td></tr>`;
+      });
+      html += '</tbody></table>';
+      document.getElementById('ownerList').innerHTML = html;
+      let p = parts();
+      document.getElementById('partsTable').innerHTML = p.map(x => `<tr><td>${x.name}<br><small>$${x.cost.toFixed(2)}</small></td><td>${x.vendor}</td><td>${x.qty}</td></tr>`).join('');
+    }
+    function assignTech(id) {
+      const d = data();
+      const r = d.find(x => x.id === id);
+      r.technician = r.service === 'Oil Change' || r.service === 'Tire Replacement' ? 'Lena Brooks' : 'Marcus Hill';
+      r.status = 'Scheduled';
+      saveData(d); renderOwner();
+    }
+    function orderParts(id) {
+      const d = data();
+      const r = d.find(x => x.id === id);
+      const p = parts();
+      const partName = r.parts;
+      const part = p.find(x => x.name === partName);
+      if (part && part.qty > 0) part.qty -= 1;
+      r.status = 'Waiting on Parts';
+      saveParts(p); saveData(d); renderOwner();
+    }
+    function advanceStatus(id) {
+      const d = data();
+      const r = d.find(x => x.id === id);
+      const flow = ['Requested', 'Scheduled', 'In Progress', 'Completed', 'Invoiced', 'Paid'];
+      const next = Math.min(flow.indexOf(r.status) + 1, flow.length - 1);
+      r.status = flow[next];
+      saveData(d); renderOwner();
+    }
+    function createInvoice(id) {
+      const d = data();
+      const r = d.find(x => x.id === id);
+      r.invoice = prices[r.service] || 95;
+      r.status = 'Invoiced';
+      saveData(d); renderOwner();
+    }
+    function payInvoice(id) {
+      const d = data();
+      const r = d.find(x => x.id === id);
+      r.paid = true;
+      r.status = 'Paid';
+      saveData(d); renderCustomer();
+      alert('Payment authorized in prototype mode.');
+    }
+    function invoiceFirst() {
+      const d = data();
+      if (d[0]) { d[0].technician = 'Marcus Hill'; d[0].invoice = 275; d[0].status = 'Invoiced'; saveData(d); renderCustomer(); }
+    }
+    function resetDemo() { localStorage.clear(); init(); alert('Demo data reset.'); }
+    init();
+  </script>
+</body>
+</html>
