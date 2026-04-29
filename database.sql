@@ -123,7 +123,7 @@ INSERT INTO customers (first_name, last_name, street_address, city, zip_code, em
 ('Demo', 'Customer', '100 Main Street', 'Daytona Beach', '32114', 'customer@penguinauto.com', '386-555-0100', 'demo_hash');
 
 INSERT INTO employees (first_name, last_name, city, email_address, phone_number, hourly_wages, position, hiring_date, assigned_tasks, role) VALUES
-('Olivia', 'Reed', 'Daytona Beach', 'owner@penguinauto.com', '386-555-0200', 45.00, 'Owner', '2022-01-01', 'Approve repairs and invoices', 'owner'),
+('Olivia', 'Reed', 'Daytona Beach', 'employee@penguinauto.com', '386-555-0200', 45.00, 'Employee', '2022-01-01', 'Approve repairs and invoices', 'Employee'),
 ('Marcus', 'Hill', 'Daytona Beach', 'tech1@penguinauto.com', '386-555-0201', 32.00, 'Technician', '2024-03-11', 'Diagnostics and brake repair', 'technician'),
 ('Lena', 'Brooks', 'Daytona Beach', 'tech2@penguinauto.com', '386-555-0202', 30.00, 'Technician', '2024-05-20', 'Oil changes and tire service', 'technician');
 
