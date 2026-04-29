@@ -7,14 +7,14 @@ How to run:
 
 Demo accounts:
 Customer: customer@penguinauto.com
-Owner: owner@penguinauto.com
+Employee: employee@penguinauto.com
 Demo 2FA code: 123456
 
 Main flows demonstrated:
 - Customer logs in with 2FA.
 - Customer submits a service request.
-- Owner logs in with 2FA.
-- Owner views service requests, assigns technician, orders parts, updates status, and creates invoice.
+- Employee logs in with 2FA.
+- Employee views service requests, assigns technician, orders parts, updates status, and creates invoice.
 - Customer views and pays invoice in simulated prototype mode.
 
 Files:
