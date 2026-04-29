@@ -156,7 +156,7 @@
     <div class="top-actions">
       <button class="secondary" onclick="showHome()">Home</button>
       <button class="secondary" onclick="startLogin('customer')">Customer Login</button>
-      <button class="secondary" onclick="startLogin('owner')">Owner Login</button>
+      <button class="secondary" onclick="startLogin('employee')">Employee Login</button>
       <button class="secondary" onclick="resetDemo()">Reset Demo</button>
     </div>
   </header>
@@ -166,10 +166,10 @@
       <div class="grid">
         <div class="card hero">
           <h2>Auto repair workflow prototype</h2>
-          <p>This prototype demonstrates the final PA3 workflow for Penguin Auto Specialists. Customers can submit service requests, track repair status, and pay invoices. The owner dashboard can view requests, assign technicians, order parts, update status, and invoice the customer.</p>
+          <p>This prototype demonstrates the final PA3 workflow for Penguin Auto Specialists. Customers can submit service requests, track repair status, and pay invoices. The employee dashboard can view requests, assign technicians, order parts, update status, and invoice the customer.</p>
           <div class="progress">
             <span class="step done">1. Customer Request</span>
-            <span class="step done">2. Owner Review</span>
+            <span class="step done">2. Employee Review</span>
             <span class="step done">3. Technician Assigned</span>
             <span class="step done">4. Parts Tracked</span>
             <span class="step done">5. Invoice / Payment</span>
@@ -180,17 +180,17 @@
             <div class="stat"><strong>4</strong><span>Core services</span></div>
             <div class="stat"><strong>Local</strong><span>Prototype storage</span></div>
           </div>
-          <p class="notice"><b>Demo code:</b> Use customer or owner login, then enter 2FA code <b>123456</b>.</p>
+          <p class="notice"><b>Demo code:</b> Use customer or employee login, then enter 2FA code <b>123456</b>.</p>
         </div>
         <div class="card login-card">
           <h2>Demo access</h2>
           <p>Use these buttons to test the required user paths.</p>
           <button style="width:100%; margin-bottom:10px;" onclick="startLogin('customer')">Login as Customer</button>
-          <button class="success" style="width:100%; margin-bottom:10px;" onclick="startLogin('owner')">Login as Owner</button>
+          <button class="success" style="width:100%; margin-bottom:10px;" onclick="startLogin('employee')">Login as Employee</button>
           <div class="invoice">
             <h3>Demo accounts</h3>
             <p><b>Customer:</b> customer@penguinauto.com</p>
-            <p><b>Owner:</b> owner@penguinauto.com</p>
+            <p><b>Employee:</b> employee@penguinauto.com</p>
             <p><b>2FA:</b> 123456</p>
           </div>
         </div>
@@ -281,10 +281,10 @@
       </div>
     </section>
 
-    <section id="owner" class="screen">
+    <section id="employee" class="screen">
       <div class="grid">
         <div class="card full">
-          <h2>Owner / Worker Dashboard</h2>
+          <h2>Employee / Worker Dashboard</h2>
           <p>Review service requests, assign technicians, manage parts, update status, and create invoices.</p>
           <div class="stat-row">
             <div class="stat"><strong id="requestCount">0</strong><span>Service requests</span></div>
@@ -295,7 +295,7 @@
         </div>
         <div class="card two-third">
           <h2>Repair Orders</h2>
-          <div id="ownerList" class="table-wrap"></div>
+          <div id="employeeList" class="table-wrap"></div>
         </div>
         <div class="card third">
           <h2>Parts Inventory</h2>
@@ -345,7 +345,7 @@
       const params = new URLSearchParams(location.search);
       const view = params.get('view');
       if (view === 'customer') showCustomer();
-      else if (view === 'owner') showOwner();
+      else if (view === 'employee') showEmployee();
       else if (view === 'invoice') { showCustomer(); invoiceFirst(); }
       else showHome();
     }
@@ -361,14 +361,14 @@
       activate('login');
       document.getElementById('twoFactorBox').style.display = 'none';
       document.getElementById('twoFactorCode').value = '';
-      document.getElementById('loginTitle').textContent = role === 'owner' ? 'Owner Login' : 'Customer Login';
-      document.getElementById('loginEmail').value = role === 'owner' ? 'owner@penguinauto.com' : 'customer@penguinauto.com';
+      document.getElementById('loginTitle').textContent = role === 'employee' ? 'Employee Login' : 'Customer Login';
+      document.getElementById('loginEmail').value = role === 'employee' ? 'employee@penguinauto.com' : 'customer@penguinauto.com';
     }
     function showTwoFactor() { document.getElementById('twoFactorBox').style.display = 'block'; document.getElementById('twoFactorCode').focus(); }
     function completeLogin() {
       const code = document.getElementById('twoFactorCode').value.trim();
       if (code !== '123456') { alert('Invalid demo 2FA code. Use 123456.'); return; }
-      if (pendingRole === 'owner') showOwner(); else showCustomer();
+      if (pendingRole === 'employee') showEmployee(); else showCustomer();
     }
     function submitRequest() {
       const d = data();
@@ -391,10 +391,10 @@
       });
       saveData(d);
       renderCustomer();
-      alert('Service request submitted. The owner dashboard can now assign the repair.');
+      alert('Service request submitted. The employee dashboard can now assign the repair.');
     }
     function showCustomer() { activate('customer'); renderCustomer(); }
-    function showOwner() { activate('owner'); renderOwner(); }
+    function showEmployee() { activate('employee'); renderEmployee(); }
     function statusBadge(status) {
       let c = status === 'Paid' || status === 'Completed' ? 'green' : status === 'Waiting on Parts' ? 'red' : 'orange';
       return `<span class="badge ${c}">${status}</span>`;
@@ -409,13 +409,13 @@
       html += '</tbody></table>';
       document.getElementById('customerList').innerHTML = html;
     }
-    function renderOwner() {
+    function renderEmployee() {
       const d = data();
       document.getElementById('requestCount').textContent = d.length;
       document.getElementById('activeCount').textContent = d.filter(r => !r.paid && r.status !== 'Completed').length;
       document.getElementById('invoiceCount').textContent = d.filter(r => r.invoice > 0).length;
       document.getElementById('revenueCount').textContent = d.filter(r => r.paid).reduce((a,b) => a + b.invoice, 0).toFixed(2);
-      let html = '<table><thead><tr><th>Repair #</th><th>Customer</th><th>Vehicle / Service</th><th>Status</th><th>Technician</th><th>Owner Actions</th></tr></thead><tbody>';
+      let html = '<table><thead><tr><th>Repair #</th><th>Customer</th><th>Vehicle / Service</th><th>Status</th><th>Technician</th><th>Employee Actions</th></tr></thead><tbody>';
       d.forEach(r => {
         html += `<tr><td>${r.id}</td><td>${r.customer}<br><small>${r.email}</small></td><td>${r.vehicle}<br><b>${r.service}</b><br><small>${r.notes}</small></td><td>${statusBadge(r.status)}</td><td>${r.technician}</td><td>
           <button class="light" onclick="assignTech(${r.id})">Assign Tech</button>
@@ -425,7 +425,7 @@
         </td></tr>`;
       });
       html += '</tbody></table>';
-      document.getElementById('ownerList').innerHTML = html;
+      document.getElementById('employeeList').innerHTML = html;
       let p = parts();
       document.getElementById('partsTable').innerHTML = p.map(x => `<tr><td>${x.name}<br><small>$${x.cost.toFixed(2)}</small></td><td>${x.vendor}</td><td>${x.qty}</td></tr>`).join('');
     }
@@ -434,7 +434,7 @@
       const r = d.find(x => x.id === id);
       r.technician = r.service === 'Oil Change' || r.service === 'Tire Replacement' ? 'Lena Brooks' : 'Marcus Hill';
       r.status = 'Scheduled';
-      saveData(d); renderOwner();
+      saveData(d); renderEmployee();
     }
     function orderParts(id) {
       const d = data();
@@ -444,7 +444,7 @@
       const part = p.find(x => x.name === partName);
       if (part && part.qty > 0) part.qty -= 1;
       r.status = 'Waiting on Parts';
-      saveParts(p); saveData(d); renderOwner();
+      saveParts(p); saveData(d); renderEmployee();
     }
     function advanceStatus(id) {
       const d = data();
@@ -452,14 +452,14 @@
       const flow = ['Requested', 'Scheduled', 'In Progress', 'Completed', 'Invoiced', 'Paid'];
       const next = Math.min(flow.indexOf(r.status) + 1, flow.length - 1);
       r.status = flow[next];
-      saveData(d); renderOwner();
+      saveData(d); renderEmployee();
     }
     function createInvoice(id) {
       const d = data();
       const r = d.find(x => x.id === id);
       r.invoice = prices[r.service] || 95;
       r.status = 'Invoiced';
-      saveData(d); renderOwner();
+      saveData(d); renderEmployee();
     }
     function payInvoice(id) {
       const d = data();
