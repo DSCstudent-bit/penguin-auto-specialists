@@ -20,6 +20,3 @@ Main flows demonstrated:
 Files:
 - index.html: mobile-responsive prototype UI and local JavaScript logic.
 - database.sql: MySQL schema and sample records.
-
-Notes:
-This is a classroom prototype. The browser version stores demo records in localStorage to simulate a database connection. The MySQL script shows the database structure intended for a production implementation.
