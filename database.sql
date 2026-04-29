@@ -118,7 +118,7 @@ CREATE TABLE repair_parts (
     FOREIGN KEY (part_id) REFERENCES parts(part_id)
 );
 
--- Sample records for prototype testing
+-- Demo names to be used to populate categories
 INSERT INTO customers (first_name, last_name, street_address, city, zip_code, email_address, phone_number, password_hash) VALUES
 ('Demo', 'Customer', '100 Main Street', 'Daytona Beach', '32114', 'customer@penguinauto.com', '386-555-0100', 'demo_hash');
 
