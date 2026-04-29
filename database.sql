@@ -1,5 +1,5 @@
 -- Penguin Auto Specialists Service System
--- MySQL database creation script for PA3
+-- MySQL databsae creation script for PA3
 
 CREATE DATABASE IF NOT EXISTS penguin_auto;
 USE penguin_auto;
@@ -123,9 +123,9 @@ INSERT INTO customers (first_name, last_name, street_address, city, zip_code, em
 ('Demo', 'Customer', '100 Main Street', 'Daytona Beach', '32114', 'customer@penguinauto.com', '386-555-0100', 'demo_hash');
 
 INSERT INTO employees (first_name, last_name, city, email_address, phone_number, hourly_wages, position, hiring_date, assigned_tasks, role) VALUES
-('Olivia', 'Reed', 'Daytona Beach', 'employee@penguinauto.com', '386-555-0200', 45.00, 'Employee', '2022-01-01', 'Approve repairs and invoices', 'Employee'),
-('Marcus', 'Hill', 'Daytona Beach', 'tech1@penguinauto.com', '386-555-0201', 32.00, 'Technician', '2024-03-11', 'Diagnostics and brake repair', 'technician'),
-('Lena', 'Brooks', 'Daytona Beach', 'tech2@penguinauto.com', '386-555-0202', 30.00, 'Technician', '2024-05-20', 'Oil changes and tire service', 'technician');
+('Jack', 'Reacher', 'Daytona Beach', 'employee@penguinauto.com', '386-555-0200', 45.00, 'Employee', '2022-01-01', 'Approve repairs and invoices', 'Employee'),
+('Jane', 'Doe', 'Daytona Beach', 'tech1@penguinauto.com', '386-555-0201', 32.00, 'Technician', '2024-03-11', 'Diagnostics and brake repair', 'technician'),
+('Hugh', 'Mann', 'Daytona Beach', 'tech2@penguinauto.com', '386-555-0202', 30.00, 'Technician', '2024-05-20', 'Oil changes and tire service', 'technician');
 
 INSERT INTO vehicles (customer_id, make, model, year, color, license_plate_number, vin_number) VALUES
 (1, 'Toyota', 'Camry', 2018, 'Silver', 'ABC1234', '1HGCM82633A004352');
