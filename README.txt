@@ -1,6 +1,6 @@
 Penguin Auto Specialists Service System - PA3 Prototype
 
-How to run:
+How to run locally:
 1. Open index.html in any modern web browser.
 2. Use the demo login buttons on the home screen.
 3. Use demo 2FA code: 123456.
